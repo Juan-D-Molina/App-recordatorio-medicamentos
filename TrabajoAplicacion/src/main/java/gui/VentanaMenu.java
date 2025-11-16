@@ -4,6 +4,7 @@ import app.Sistema;
 import modelo.Paciente;
 import servicios.Alarma;
 import javax.swing.*;
+import java.awt.Font; // Import necesario
 
 public class VentanaMenu extends JFrame {
     private JButton btnDoctor, btnRecordatorios, btnProbarAlarma, btnEstadisticas, btnRegresar;
@@ -15,30 +16,41 @@ public class VentanaMenu extends JFrame {
         this.sistema = sistema;
 
         setTitle("Menú Principal - " + paciente.getNombre());
-        setSize(350, 300);
+        setSize(350, 320); // Tamaño aumentado ligeramente
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(null);
 
+        // --- Mensaje de Bienvenida Añadido ---
+        JLabel lblBienvenida = new JLabel("Bienvenido a Ikigai, " + paciente.getNombre(), SwingConstants.CENTER);
+        lblBienvenida.setBounds(10, 10, 310, 25);
+        lblBienvenida.setFont(new Font("Arial", Font.BOLD, 14));
+        add(lblBienvenida);
+
+        // --- Botones (coordenadas 'y' ajustadas) ---
+        int yOffset = 40; // Espacio para el saludo
+
         btnDoctor = new JButton("Consultar Doctor");
-        btnDoctor.setBounds(80, 20, 180, 30);
+        btnDoctor.setBounds(80, 20 + yOffset, 180, 30);
         add(btnDoctor);
 
         btnRecordatorios = new JButton("Ver Recordatorios");
-        btnRecordatorios.setBounds(80, 60, 180, 30);
+        btnRecordatorios.setBounds(80, 60 + yOffset, 180, 30);
         add(btnRecordatorios);
 
         btnProbarAlarma = new JButton("Probar Alarma");
-        btnProbarAlarma.setBounds(80, 100, 180, 30);
+        btnProbarAlarma.setBounds(80, 100 + yOffset, 180, 30);
         add(btnProbarAlarma);
 
         btnEstadisticas = new JButton("Ver Estadísticas");
-        btnEstadisticas.setBounds(80, 140, 180, 30);
+        btnEstadisticas.setBounds(80, 140 + yOffset, 180, 30);
         add(btnEstadisticas);
 
-        btnRegresar = new JButton("Regresar");
-        btnRegresar.setBounds(80, 180, 180, 30);
+        btnRegresar = new JButton("Regresar"); // Botón renombrado a "Cerrar Sesión" o "Regresar"
+        btnRegresar.setBounds(80, 180 + yOffset, 180, 30);
         add(btnRegresar);
+
+        // --- Lógica de Eventos (sin cambios excepto btnRegresar) ---
 
         btnDoctor.addActionListener(e -> {
             new VentanaConsultaDoctor(sistema, paciente).setVisible(true);
@@ -51,22 +63,20 @@ public class VentanaMenu extends JFrame {
         });
 
         btnProbarAlarma.addActionListener(e -> {
-            // Crea y activa un hilo de alarma
-            Alarma alarma = new Alarma(5, paciente); // Alarma de 5 segundos
+            Alarma alarma = new Alarma(5, paciente);
             alarma.activar();
-             
             JOptionPane.showMessageDialog(this, "Alarma activada para sonar en 5 segundos.", "Alarma", JOptionPane.INFORMATION_MESSAGE);
         });
 
         btnEstadisticas.addActionListener(e -> {
-            // Abre la ventana de estadísticas
             new VentanaEstadisticas(paciente, sistema).setVisible(true);
             dispose();
         });
         
+        // --- Botón Regresar (LÓGICA CORREGIDA) ---
         btnRegresar.addActionListener(e -> {
-            // Regresa a la pantalla de selección de paciente
-            new VentanaPaciente(sistema.getEstadisticas().getPaciente1(), sistema.getEstadisticas().getPaciente2(), sistema).setVisible(true);
+            // Regresa a la pantalla de selección de login
+            new VentanaLogin(sistema).setVisible(true);
             dispose();
         });
     }

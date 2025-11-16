@@ -7,12 +7,19 @@ public class Paciente extends Persona implements Notificable {
     private ArrayList<Recordatorio> recordatorios;
     private ArrayList<Doctor> doctoresConsultados;
     private int totalAlarmas; // Mantenido para un posible uso interno
+    private EPS eps; // Campo añadido
 
-    public Paciente(String nombre, String id) {
+    // Constructor modificado
+    public Paciente(String nombre, String id, EPS eps) {
         super(nombre, id);
+        this.eps = eps; // EPS añadida
         recordatorios = new ArrayList<>();
         doctoresConsultados = new ArrayList<>();
         totalAlarmas = 0;
+    }
+
+    public EPS getEps() {
+        return eps;
     }
 
     public void agregarRecordatorio(Recordatorio r) {
@@ -22,7 +29,6 @@ public class Paciente extends Persona implements Notificable {
     public ArrayList<Recordatorio> getRecordatorios() { return recordatorios; }
 
     public void agregarDoctor(Doctor d) { 
-        // Evita agregar el mismo doctor varias veces si ya fue consultado
         if (!doctoresConsultados.contains(d)) {
             doctoresConsultados.add(d);
         }
@@ -38,8 +44,7 @@ public class Paciente extends Persona implements Notificable {
 
     @Override
     public void enviarNotificacion(String mensaje) {
-        // Simulación de envío de notificación al paciente
         System.out.println("Notificación para " + getNombre() + ": " + mensaje);
-        aumentarAlarmas(1); // Incrementa el contador interno
+        aumentarAlarmas(1);
     }
 }

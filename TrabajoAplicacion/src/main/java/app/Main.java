@@ -1,19 +1,15 @@
 package app;
 
-import gui.VentanaPaciente;
+import gui.VentanaLogin; // Import cambiado
 
 public class Main {
     public static void main(String[] args) {
-        // Inicializa el sistema, que crea pacientes, doctores y medicamentos
+        // Inicializa el sistema 
         Sistema sistema = new Sistema();
         
-        // La ventana inicial permite seleccionar al paciente.
-        // Utiliza el Singleton de Estadisticas para obtener los pacientes iniciales.
-        VentanaPaciente ventana = new VentanaPaciente(
-                sistema.getEstadisticas().getPaciente1(),
-                sistema.getEstadisticas().getPaciente2(),
-                sistema
-        );
+        // La ventana inicial ahora es el Login.
+        
+        VentanaLogin ventana = new VentanaLogin(sistema);
         ventana.setVisible(true);
     }
 }
